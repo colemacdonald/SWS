@@ -14,6 +14,50 @@ implements a simple web server using the UDP
 #include <unistd.h> /* for close() for socket */ 
 #include <stdlib.h>
 
+#define TRUE 1
+#define FALSE 0
+
+void parse_request(char * request_string, char ** buffer)
+{
+	const char s[2] = " ";
+
+	char * token;
+
+	token = strtok(request_string, s);
+
+	int i = 0;
+
+	while(token != NULL)
+	{
+		printf("%s\n", token);
+		buffer[i] = token;
+		token = strtok(NULL, s);
+		i++;
+	}
+}
+
+int directoryExists(char * directory)
+{
+	DIR* dir = opendir(directory);
+	if( dir )
+	{
+		//directory does exist
+		return TRUE;
+	} 
+	else if (ENOENT == errno)
+	{
+		//directory does not exist
+		printf("Directory '%s' does not exist.\n", directory);
+		return FALSE;
+	}
+	else
+	{
+		//failed for an unknown reason....
+		printf("Checking directory failed for unknown reason.\n");
+		return FALSE;
+	}
+}
+
 int main( int argc, char ** argv )
 {
 	if( argc != 3)
@@ -25,21 +69,8 @@ int main( int argc, char ** argv )
 	char * port = argv[1];
 	char * directory = argv[2];
 
-	DIR* dir = opendir(directory);
-	if( dir )
+	if(!directoryExists(directory))
 	{
-		//directory does exist
-	} 
-	else if (ENOENT == errno)
-	{
-		//directory does not exist
-		printf("Directory '%s' does not exist.\n", directory);
-		return EXIT_FAILURE;
-	}
-	else
-	{
-		//failed for an unknown reason....
-		printf("Checking directory failed for unknown reason.\n");
 		return EXIT_FAILURE;
 	}
 
@@ -56,6 +87,9 @@ int main( int argc, char ** argv )
 	sa.sin_port = htons( atoi( port ) ); //convert to int
 	fromlen = sizeof(sa);
 	//end of copy
+
+	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
 	if(bind(sock, (struct sockaddr *) &sa, sizeof sa) != 0)
 	{
@@ -75,12 +109,65 @@ int main( int argc, char ** argv )
 	FD_SET( sock, &read_fds );
 
 	printf("sws is running on UDP port %s and serving %s\n", port, directory);
-	printf("press q to quit ...\n");
+	printf("press 'q' to quit ...\n");
+
+
+	char * parseBuffer[3];
+
+	char request[] = "GET / HTTP/1.0";
+
+	parse_request(request, parseBuffer);
+	printf("parsebuffer\n");
+	for(int i = 0; i < 3; i++)
+	{
+		printf("%s\n", parseBuffer[i]);
+	}
+
+	char readbuffer[10];
 
 	while (1)
 	{
 		//select()
-		select_result = select( 1, &read_fds, NULL, NULL, NULL );
+		select_result = select( 2, &read_fds, NULL, NULL, NULL );
+		
+		//printf("%d\n", select_result);
+		//printf("%zd\n", read(STDIN_FILENO, readbuffer, 10));
+
+		//printf("readbuffer[0] = %s", &readbuffer[0]);
+		switch( select_result )
+		{
+			case -1:
+				//error
+				printf("Error in select (-1). Continuing.\n");
+				break;
+			case 0:
+				//timeout -> should never happen as timeout is null
+				printf("Error in select (0). Continuing.\n");
+				break;
+			case 1:
+				//select returned properly
+				if(FD_ISSET(STDIN_FILENO, &read_fds))
+				{
+					printf("Recieved from stdin\n");
+					read(STDIN_FILENO, readbuffer, 10);
+					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
+					{
+						printf("Goodbye!\n");
+						close(sock);
+						return EXIT_SUCCESS;
+					}
+					fflush(STDIN_FILENO);
+				} else if(FS_ISSET(sock, &read_fds))
+				{
+					printf("Recieved through socket\n");
+				}
+				break;
+			default:
+				printf("Default select hit.");
+				break;
+				//wtf
+
+		}
 		//handle requests
 		// use recvfrom() --> "normally used for connectionless-mode sockets because it permits the application
 		// to retrieve the source address of the received data"
