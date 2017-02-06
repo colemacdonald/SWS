@@ -118,7 +118,9 @@ int main( int argc, char ** argv )
 
 	parse_request(request, parseBuffer);
 	printf("parsebuffer\n");
-	for(int i = 0; i < 3; i++)
+
+	int i;
+	for(i = 0; i < 3; i++)
 	{
 		printf("%s\n", parseBuffer[i]);
 	}
