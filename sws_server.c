@@ -159,7 +159,7 @@ int main( int argc, char ** argv )
 						return EXIT_SUCCESS;
 					}
 					fflush(STDIN_FILENO);
-				} else if(FS_ISSET(sock, &read_fds))
+				} else if(FD_ISSET(sock, &read_fds))
 				{
 					printf("Recieved through socket\n");
 				}
