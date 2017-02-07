@@ -176,7 +176,7 @@ int main( int argc, char ** argv )
 		//select()
 		select_result = select( 4, &read_fds, NULL, NULL, NULL );
 		
-		printf("%d\n", select_result);
+		printf("result: %d\n", select_result);
 
 		fflush(STDIN_FILENO);
 		//printf("%zd\n", read(STDIN_FILENO, readbuffer, 10));
