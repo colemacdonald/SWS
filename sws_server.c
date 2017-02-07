@@ -13,9 +13,55 @@ implements a simple web server using the UDP
 #include <netinet/in.h>
 #include <unistd.h> /* for close() for socket */ 
 #include <stdlib.h>
+#include <ctype.h>
 
 #define TRUE 1
 #define FALSE 0
+
+void strToUpper(char * str)
+{
+	char * s = str;
+	while(*s)
+	{
+		*s = toupper((unsigned char) *s);
+		s++;
+	}
+}
+
+int checkRequestMethod(char * method)
+{
+	strToUpper(method);
+	if(strcmp(method, "GET") != 0)
+	{
+		printf("Bad method\n");
+		return FALSE;
+	}
+	printf("Good method\n");
+	return TRUE;
+}
+
+int checkURI(char * filepath)
+{
+	if(filepath[0] != '/')
+	{
+		printf("Bad URI\n");
+		return FALSE;
+	}
+	printf("Good URI\n");
+	return TRUE;
+}
+
+int checkHTTPVersion(char * version)
+{
+	strToUpper(version);
+	if(strcmp(version, "HTTP/1.0") != 0)
+	{
+		printf("Bad version\n");
+		return FALSE;
+	}
+	printf("Good version\n");
+	return TRUE;
+}
 
 void parse_request(char * request_string, char ** buffer)
 {
@@ -27,7 +73,7 @@ void parse_request(char * request_string, char ** buffer)
 
 	int i = 0;
 
-	while(token != NULL)
+	while(token != NULL && i < 3)//buffer only has 3 spots
 	{
 		printf("%s\n", token);
 		buffer[i] = token;
@@ -112,17 +158,15 @@ int main( int argc, char ** argv )
 	printf("press 'q' to quit ...\n");
 
 
-	char * parseBuffer[3];
+	char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
-	char request[] = "GET / HTTP/1.0";
+	char request[] = "geT / htTP/1.0";
 
 	parse_request(request, parseBuffer);
-	printf("parsebuffer\n");
 
-	int i;
-	for(i = 0; i < 3; i++)
+	if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 	{
-		printf("%s\n", parseBuffer[i]);
+		printf("400\n");
 	}
 
 	char readbuffer[10];
@@ -132,7 +176,7 @@ int main( int argc, char ** argv )
 		//select()
 		select_result = select( 2, &read_fds, NULL, NULL, NULL );
 		
-		//printf("%d\n", select_result);
+		printf("%d\n", select_result);
 		//printf("%zd\n", read(STDIN_FILENO, readbuffer, 10));
 
 		//printf("readbuffer[0] = %s", &readbuffer[0]);
