@@ -136,8 +136,9 @@ int main( int argc, char ** argv )
 	sa.sin_port = htons( atoi( port ) ); //convert to int
 	fromlen = sizeof(sa);
 	//end of copy
-
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
+
+	printf("port: %d\n", sa.sin_port);
 
 	if(bind(sock, (struct sockaddr *) &sa, sizeof sa) != 0)
 	{
