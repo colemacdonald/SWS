@@ -176,11 +176,11 @@ int main( int argc, char ** argv )
 	while (1)
 	{
 		//select()
+		fflush(STDIN_FILENO);
 		select_result = select( 4, &read_fds, NULL, NULL, NULL );
 		
 		printf("result: %d\n", select_result);
 
-		fflush(STDIN_FILENO);
 		//printf("%zd\n", read(STDIN_FILENO, readbuffer, 10));
 
 		//printf("readbuffer[0] = %s", &readbuffer[0]);
