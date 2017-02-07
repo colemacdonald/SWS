@@ -144,8 +144,6 @@ int main( int argc, char ** argv )
 		return EXIT_FAILURE;
 	}
 
-	printf("%d\n", sock);
-
 	//prep fdset
 	int select_result;
 	fd_set read_fds;
