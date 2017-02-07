@@ -131,7 +131,8 @@ int main( int argc, char ** argv )
 	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
-	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
+	int opt = TRUE;
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt));
 
 	//struct sockaddr_in sa; 
 	char buffer[1024];
