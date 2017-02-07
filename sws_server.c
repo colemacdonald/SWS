@@ -222,7 +222,12 @@ int main( int argc, char ** argv )
 					char request[4096];
 
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
-					printf("%zd\n", recsize);
+					if(recsize == -1)
+					{
+						printf("Error occured.\n");
+						continue;
+					}
+					printf("%s\n", request);
 				}
 				break;
 			default:
