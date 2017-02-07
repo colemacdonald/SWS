@@ -216,8 +216,13 @@ int main( int argc, char ** argv )
 					fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
-					fflush(sock);
 					printf("Recieved through socket\n");
+					ssize_t recsize;
+					socklen_t fromlen = sizeof(sa);
+					char request[4096];
+
+					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
+			
 				}
 				break;
 			default:
