@@ -174,7 +174,7 @@ int main( int argc, char ** argv )
 	while (1)
 	{
 		//select()
-		select_result = select( 2, &read_fds, NULL, NULL, NULL );
+		select_result = select( 4, &read_fds, NULL, NULL, NULL );
 		
 		printf("%d\n", select_result);
 		//printf("%zd\n", read(STDIN_FILENO, readbuffer, 10));
