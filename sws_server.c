@@ -184,7 +184,7 @@ int main( int argc, char ** argv )
 	{
 		//select()
 		fflush(STDIN_FILENO);
-		select_result = select( 5, &read_fds, NULL, NULL, NULL );
+		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 		
 		printf("result: %d\n", select_result);
 
@@ -216,6 +216,7 @@ int main( int argc, char ** argv )
 					fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
+					fflush(sock);
 					printf("Recieved through socket\n");
 				}
 				break;
