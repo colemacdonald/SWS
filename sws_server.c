@@ -135,7 +135,7 @@ int main( int argc, char ** argv )
 	//end of copy
 
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
-	setsockopt(sock, SOL_SOCKET, (SO_REUSEADDR | SO_REUSEPORT), &(int){ 1 }, sizeof(int));
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
 	if(bind(sock, (struct sockaddr *) &sa, sizeof sa) != 0)
 	{
