@@ -18,6 +18,11 @@ implements a simple web server using the UDP
 #define TRUE 1
 #define FALSE 0
 
+int sock;
+char * port;
+char * directory;
+struct sockaddr_in sa;
+
 void strToUpper(char * str)
 {
 	char * s = str;
@@ -112,8 +117,10 @@ int main( int argc, char ** argv )
 		return EXIT_FAILURE;
 	}
 
-	char * port = argv[1];
-	char * directory = argv[2];
+	port = argv[1];
+	directory = argv[2];
+	strcat(port, "\0");
+	strcat(directory, "\0");
 
 	if(!directoryExists(directory))
 	{
@@ -121,11 +128,12 @@ int main( int argc, char ** argv )
 	}
 
 	//copied from udp_server.c
-	int sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
+	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
-	struct sockaddr_in sa; 
+	//struct sockaddr_in sa; 
 	char buffer[1024];
 	ssize_t recsize;
 	socklen_t fromlen;
@@ -136,9 +144,6 @@ int main( int argc, char ** argv )
 	sa.sin_port = htons( atoi( port ) ); //convert to int
 	fromlen = sizeof(sa);
 	//end of copy
-	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
-
-	printf("port: %d\n", sa.sin_port);
 
 	if(bind(sock, (struct sockaddr *) &sa, sizeof sa) != 0)
 	{
