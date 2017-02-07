@@ -227,7 +227,7 @@ int main( int argc, char ** argv )
 						printf("Error occured.\n");
 						continue;
 					}
-					printf("%s\n", request);
+					printf("Request: %s\n", request);
 				}
 				break;
 			default:
