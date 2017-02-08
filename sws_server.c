@@ -100,6 +100,12 @@ void parse_request(char * request_string, char ** buffer)
 	while(token != NULL && i < 3)//buffer only has 3 spots
 	{
 		printf("%s\n", token);
+		if(i == 1 && strcmp(token, "/") == 0)
+		{
+			buffer[i] = "/index.html";
+			i++;
+			continue;
+		}
 		buffer[i] = token;
 		token = strtok(NULL, s);
 		i++;
