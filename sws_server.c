@@ -295,7 +295,7 @@ int main( int argc, char ** argv )
 							//request string trimmed
 							char a[1024];
 							strTrimInto(a, request);
-							printf("%s;" a);
+							printf("%s;", a);
 						}
 					}
 
