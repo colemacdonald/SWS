@@ -60,6 +60,12 @@ int checkURI(char * filepath)
 int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
+
+	while((char)version[strlen(version) - 1] == '\r\n' )
+	{
+		version[strlen(version) - 1] = '\0';
+	}
+
 	if(strcmp(version, "HTTP/1.0") != 0)
 	{
 		printf("Bad version\n");
