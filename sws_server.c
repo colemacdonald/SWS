@@ -100,7 +100,6 @@ void parse_request(char * request_string, char ** buffer)
 
 	while(token != NULL && i < 3)//buffer only has 3 spots
 	{
-		printf("%s\n", token);
 		if(i == 1 && strcmp(token, "/") == 0)
 		{
 			buffer[i] = "/index.html";
@@ -271,9 +270,11 @@ int main( int argc, char ** argv )
 						}
 						else
 						{
+							//gather time string
 							char timestring [80];
 							getTimeString(timestring);
 							printf("%s\n", timestring);
+							printf("%u:%hu\n", sa.sin_addr.s_addr, sa.sin_port);
 						}
 					}
 
