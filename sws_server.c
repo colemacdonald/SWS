@@ -290,8 +290,8 @@ int main( int argc, char ** argv )
 							printf("%s ", timestring);
 							printf("%s:%hu", inet_ntoa(sa.sin_addr), sa.sin_port);
 							char a[1024];
-							strTrimInto(a, parseBuffer[2]);
-							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], a);
+							strTrimInto(a, request);
+							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], request);
 						}
 					}
 
