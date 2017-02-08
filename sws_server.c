@@ -267,6 +267,7 @@ int main( int argc, char ** argv )
 					strcpy(response, "HTTP/1.0 ");
 
 					FILE * fp;
+					char dir[strlen(directory) + 1];
 
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
@@ -275,7 +276,6 @@ int main( int argc, char ** argv )
 					else
 					{
 						//concat requested file onto served directory
-						char dir[strlen(directory) + 1];
 						strcpy(dir, directory);
 						strcat(dir, parseBuffer[1]);
 
