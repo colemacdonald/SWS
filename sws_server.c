@@ -261,8 +261,11 @@ int main( int argc, char ** argv )
 
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
-					parse_request(request, parseBuffer);
-					printf("request: %s\n", request);
+					char tmp[strlen(request) + 1];
+
+					strcpy(tmp, request);
+
+					parse_request(tmp, parseBuffer);
 
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
