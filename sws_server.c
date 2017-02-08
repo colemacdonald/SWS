@@ -263,9 +263,13 @@ int main( int argc, char ** argv )
 
 					parse_request(tmp, parseBuffer);
 
+					char response[4096];
+					strcpy(response, "HTTP/1.0 ");
+
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
-						printf("400\n");
+						strcat(response, "400 Bad Request");
+						printf("%s\n", response);
 					}
 					else
 					{
