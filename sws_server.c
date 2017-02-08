@@ -252,7 +252,9 @@ int main( int argc, char ** argv )
 					}
 					else
 					{
-						char * dir = directory;
+						char dir[strlen(directory) + 1];
+						strcpy(dir, directory);
+
 						strcat(dir, parseBuffer[1]);
 						printf("Post strcat: %s\n", dir);
 					}
