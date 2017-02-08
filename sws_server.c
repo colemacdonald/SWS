@@ -252,8 +252,9 @@ int main( int argc, char ** argv )
 					}
 					else
 					{
-						strcat(directory, parseBuffer[1]);
-						printf("Post strcat: %s\n", directory);
+						char * dir = directory;
+						strcat(dir, parseBuffer[1]);
+						printf("Post strcat: %s\n", dir);
 					}
 
 
