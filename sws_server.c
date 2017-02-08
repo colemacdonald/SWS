@@ -286,18 +286,19 @@ int main( int argc, char ** argv )
 						}
 						else
 						{
+							printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
-							pReqFile = fopen(dir, 'r');
-							fclose(pReqFile);
+							/*pReqFile = fopen(dir, 'r');
+							fclose(pReqFile);*/
 						}
 					}
 					//gather time string
 					char timestring [80];
 					getTimeString(timestring);
 
-					//get client ip
-
 					printf("%s ", timestring);
+
+					//ip and port
 					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
 
 					//request string trimmed
