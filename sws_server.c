@@ -245,7 +245,7 @@ int main( int argc, char ** argv )
 					}
 					else
 					{
-						printf("Unrecoognized command.\n");
+						printf("Unrecognized command.\n");
 					}
 					//fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
@@ -320,6 +320,8 @@ int main( int argc, char ** argv )
 					strTrimInto(requestTrimmed, request);
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
+
+					printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
 
 					strcat(response, "\r\n\r\n");
 
