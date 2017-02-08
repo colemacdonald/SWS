@@ -61,12 +61,12 @@ int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
 
-	while((char)version[strlen(version) - 1] == '\r' || (char)version[strlen(version) - 1] == '\n')
+	/*while((char)version[strlen(version) - 1] == '\r' || (char)version[strlen(version) - 1] == '\n')
 	{
 		version[strlen(version) - 1] = '\0';
-	}
+	}*/
 
-	if(strcmp(version, "HTTP/1.0") != 0)
+	if(strncmp(version, "HTTP/1.0", 8) != 0)
 	{
 		printf("Bad version\n");
 		return FALSE;
