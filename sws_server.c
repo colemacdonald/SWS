@@ -111,12 +111,7 @@ void parse_request(char * request_string, char ** buffer)
 
 	while(token != NULL && i < 3)//buffer only has 3 spots
 	{
-		if(i == 1 && strcmp(token, "/") == 0)
-		{
-			buffer[i] = "/index.html";
-		} else {
-			buffer[i] = token;
-		}
+		buffer[i] = token;
 		token = strtok(NULL, s);
 		i++;
 	}
@@ -288,10 +283,10 @@ int main( int argc, char ** argv )
 							//get client ip
 
 							printf("%s ", timestring);
-							printf("%s:%hu", inet_ntoa(sa.sin_addr), sa.sin_port);
+							printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
 							char a[1024];
 							strTrimInto(a, request);
-							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], request);
+							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], a);
 						}
 					}
 
