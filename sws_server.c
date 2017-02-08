@@ -17,6 +17,7 @@ implements a simple web server using the UDP
 #include <sys/stat.h>
 #include <time.h>
 #include <arpa/inet.h>
+#include <stdio.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -266,6 +267,8 @@ int main( int argc, char ** argv )
 					char response[4096];
 					strcpy(response, "HTTP/1.0 ");
 
+					FILE * pReqFile;
+
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
 						strcat(response, "400 Bad Request");
@@ -284,6 +287,8 @@ int main( int argc, char ** argv )
 						else
 						{
 							strcat(response, "200 OK");
+							pReqFile = fopen(dir, 'r');
+							fclose(pReqFile);
 						}
 					}
 					//gather time string
@@ -300,8 +305,6 @@ int main( int argc, char ** argv )
 					strTrimInto(a, request);
 					printf("%s; ", a);
 					printf("%s; ", response);
-
-
 				}
 				break;
 			default:
