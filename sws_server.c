@@ -274,8 +274,11 @@ int main( int argc, char ** argv )
 							//gather time string
 							char timestring [80];
 							getTimeString(timestring);
+
+							//get client ip
+
 							printf("%s\n", timestring);
-							printf("%s:%hu\n", inet_ntoa(sa.sin_addr), ntohs(sa.sin_port));
+							printf("%s:%hu\n", inet_ntoa(sa.sin_addr), sa.sin_port);
 						}
 					}
 
