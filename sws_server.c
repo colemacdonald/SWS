@@ -212,11 +212,12 @@ int main( int argc, char ** argv )
 	printf("sws is running on UDP port %s and serving %s\n", port, directory);
 	printf("press 'q' to quit ...\n");
 
-	char readbuffer[10];
+	
 
 	while (1)
 	{
 		//select()
+		char readbuffer[1024];
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
 		switch( select_result )
@@ -233,7 +234,7 @@ int main( int argc, char ** argv )
 				//select returned properly
 				if(FD_ISSET(STDIN_FILENO, &read_fds))
 				{
-					read(STDIN_FILENO, readbuffer, 10);
+					read(STDIN_FILENO, readbuffer, 1024);
 					//fflush(STDIN_FILENO);
 					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
 					{
@@ -243,11 +244,13 @@ int main( int argc, char ** argv )
 					}
 					else
 					{
+						free(readbuffer);
 						printf("Unrecoognized command.\n");
 					}
 					//fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
+					fflush(STDIN_FILENO);
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
 					char request[4096];
