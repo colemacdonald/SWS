@@ -322,7 +322,7 @@ int main( int argc, char ** argv )
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
 
-					printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
+					//printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
 
 					strcat(response, "\r\n\r\n");
 
