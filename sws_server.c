@@ -14,6 +14,7 @@ implements a simple web server using the UDP
 #include <unistd.h> /* for close() for socket */ 
 #include <stdlib.h>
 #include <ctype.h>
+#include <sys/stat.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -120,7 +121,15 @@ int main( int argc, char ** argv )
 	port = argv[1];
 	directory = argv[2];
 	strcat(port, "\0");
-	strcat(directory, "\0");
+	if((char)directory[strlen(directory) - 1] == '/')
+	{
+		directory[strlen(directory) - 1] = '\0';
+	} else 
+	{
+		strcat(directory, "\0");
+	}
+
+	printf("%s\n", directory);
 
 	if(!directoryExists(directory))
 	{
@@ -227,7 +236,21 @@ int main( int argc, char ** argv )
 						printf("Error occured.\n");
 						continue;
 					}
-					printf("Request: %s EOR\n", request);
+					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
+
+					parse_request(request, parseBuffer);
+
+					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
+					{
+						printf("400\n");
+					}
+					else
+					{
+						strcat(directory, parseBuffer[1]);
+						printf("Post strcat: %s\n", directory);
+					}
+
+
 				}
 				break;
 			default:
