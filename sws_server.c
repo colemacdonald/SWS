@@ -61,7 +61,7 @@ int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
 
-	while((char)version[strlen(version) - 1] == '\r\n' )
+	while((char)version[strlen(version) - 1] == '\r' || (char)version[strlen(version) - 1] == '\n')
 	{
 		version[strlen(version) - 1] = '\0';
 	}
