@@ -198,25 +198,6 @@ int main( int argc, char ** argv )
 	printf("sws is running on UDP port %s and serving %s\n", port, directory);
 	printf("press 'q' to quit ...\n");
 
-
-	char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
-
-	char request[] = "geT / htTP/1.0";
-
-	parse_request(request, parseBuffer);
-
-	if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
-	{
-		printf("400\n");
-	}
-
-	if(strcmp(parseBuffer[1], "/") == 0)
-	{
-		strcat(parseBuffer[1], "index.html");
-	}
-
-	printf("%s - %s - %s\n", parseBuffer[0], parseBuffer[1], parseBuffer[2]);
-
 	char readbuffer[10];
 
 	while (1)
@@ -224,12 +205,7 @@ int main( int argc, char ** argv )
 		//select()
 		fflush(STDIN_FILENO);
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
-		
-		printf("result: %d\n", select_result);
 
-		//printf("%zd\n", read(STDIN_FILENO, readbuffer, 10));
-
-		//printf("readbuffer[0] = %s", &readbuffer[0]);
 		switch( select_result )
 		{
 			case -1:
@@ -266,6 +242,7 @@ int main( int argc, char ** argv )
 						printf("Error occured.\n");
 						continue;
 					}
+					
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
 					parse_request(request, parseBuffer);
