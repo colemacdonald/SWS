@@ -50,7 +50,7 @@ void strToUpper(char * str)
 void strTrimInto(char * dst, char * src)
 {
 	strcpy(dst, src);
-	printf("dst: %n", dst);
+	printf("dst: %s", dst);
 
 	while(isspace(dst[strlen(dst) - 1]))
 	{
