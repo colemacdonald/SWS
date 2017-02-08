@@ -200,6 +200,11 @@ int main( int argc, char ** argv )
 
 	parse_request(request, parseBuffer);
 
+	if(strcmp(parseBuffer[1], "/") == 0)
+	{
+		strcat(parseBuffer[1], "index.html");
+	}
+
 	if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 	{
 		printf("400\n");
