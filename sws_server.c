@@ -256,8 +256,6 @@ int main( int argc, char ** argv )
 						continue;
 					}
 
-					printf("request: %s\n", request);
-
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
 					char tmp[strlen(request) + 1];
@@ -295,7 +293,7 @@ int main( int argc, char ** argv )
 							//request string trimmed
 							char a[1024];
 							strTrimInto(a, request);
-							printf("%s;", a);
+							printf("%s;\n", a);
 						}
 					}
 
