@@ -274,7 +274,7 @@ int main( int argc, char ** argv )
 							char timestring [80];
 							getTimeString(timestring);
 							printf("%s\n", timestring);
-							printf("%u:%hu\n", sa.sin_addr.s_addr, sa.sin_port);
+							printf("%u:%hu\n", sa.sin_addr.s_addr, ntohs(sa.sin_port));
 						}
 					}
 
