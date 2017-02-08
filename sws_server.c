@@ -58,6 +58,7 @@ void strTrimInto(char * dst, char * src)
 
 	while(isspace(dst[strlen(dst) - 1]) || dst[strlen(dst) - 1] == '\r' || dst[strlen(dst) - 1] == '\n')
 	{
+		printf("iter\n");
 		dst[strlen(dst) - 1] = '\0';
 	}
 }
