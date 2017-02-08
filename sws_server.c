@@ -320,7 +320,7 @@ int main( int argc, char ** argv )
 
 					strcat(response, "\r\n\r\n");
 
-					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
+					//sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
 					/*if(fp)
 					{
@@ -344,7 +344,9 @@ int main( int argc, char ** argv )
 					}*/
 
 					if(fp)
+					{
 						fclose(fp);
+					}
 				}
 				break;
 			default:
