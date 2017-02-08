@@ -3,6 +3,8 @@ sws_server.c
 
 implements a simple web server using the UDP
 
+Basis of file is from udp_server.c as shown in lab 2
+
 */
 #include <stdio.h>
 #include <errno.h>
@@ -21,11 +23,13 @@ implements a simple web server using the UDP
 
 #define TRUE 1
 #define FALSE 0
+#define BUFFER_SIZE 1024
 
 int sock;
 char * port;
 char * directory;
 struct sockaddr_in sa;
+char sendBuffer[BUFFER_SIZE];
 
 void getTimeString(char * buffer)
 {
@@ -159,8 +163,6 @@ int main( int argc, char ** argv )
 		strcat(directory, "\0");
 	}
 
-	printf("%s\n", directory);
-
 	if(!directoryExists(directory))
 	{
 		return EXIT_FAILURE;
@@ -232,7 +234,6 @@ int main( int argc, char ** argv )
 				//select returned properly
 				if(FD_ISSET(STDIN_FILENO, &read_fds))
 				{
-					printf("Recieved from stdin\n");
 					read(STDIN_FILENO, readbuffer, 10);
 					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
 					{
@@ -240,10 +241,13 @@ int main( int argc, char ** argv )
 						close(sock);
 						return EXIT_SUCCESS;
 					}
+					else
+					{
+						printf("Unrecoognized command.\n");
+					}
 					fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
-					printf("Recieved through socket\n");
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
 					char request[4096];
@@ -267,6 +271,8 @@ int main( int argc, char ** argv )
 					strcpy(response, "HTTP/1.0 ");
 
 					FILE * fp;
+					long int file_size;
+					long int bytes_read;
 					char dir[strlen(directory) + 1];
 
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
@@ -312,11 +318,28 @@ int main( int argc, char ** argv )
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
 
-					if(fp)
+					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
+
+					/*if(fp)
 					{
 						printf("%s\n", dir);
-					}
 
+						fseek(fp, 0L, SEEK_END); //read to end
+						file_size = ftell(fp);
+						fseek(fp, 0L, SEEK_SET); //set pointer back to start
+
+						char filebuffer[file_size];
+
+						bytes_read = fread(filebuffer, sizeof(char), file_size, fp);
+
+						//sending large file
+						int index = 0;
+						while(index < bytes_read)
+						{
+							sendto(sock, );
+							index += BUFFER_SIZE;
+						}
+					}*/
 
 
 					fclose(fp);
