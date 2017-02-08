@@ -144,7 +144,7 @@ int main( int argc, char ** argv )
 {
 	if( argc != 3)
 	{
-		printf("Incorrect number of arguments.\n");
+		printf("Incorrect number of arguments. Run as follows:\n ./sws <port> <directory>");
 		return EXIT_FAILURE;
 	}
 
@@ -266,7 +266,7 @@ int main( int argc, char ** argv )
 					char response[4096];
 					strcpy(response, "HTTP/1.0 ");
 
-					FILE * pReqFile;
+					FILE * fp;
 
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
@@ -287,8 +287,7 @@ int main( int argc, char ** argv )
 						{
 							printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
-							pReqFile = fopen(dir, "r");
-							fclose(pReqFile);
+							fp = fopen(dir, "r");
 						}
 					}
 					//gather time string
@@ -301,10 +300,19 @@ int main( int argc, char ** argv )
 					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
 
 					//request string trimmed
-					char a[1024];
-					strTrimInto(a, request);
-					printf("%s; ", a);
+					char requestTrimmed[1024];
+					strTrimInto(requestTrimmed, request);
+					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
+
+					if(fp)
+					{
+						printf("%s\n", dir);
+					}
+
+
+
+					fclose(fp);
 				}
 				break;
 			default:
