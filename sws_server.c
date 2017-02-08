@@ -54,9 +54,9 @@ void strToUpper(char * str)
 
 void strTrimInto(char * dst, char * src)
 {
-	strcpy(dst, src);
+	strncpy(dst, src, strlen(src) - 4);
 
-	while(isspace(dst[strlen(dst) - 1]) || strcmp((char*)dst[strlen(dst) - 1], "\r") == 0 || strcmp((char*)dst[strlen(dst) - 1], "\n") == 0)
+	while(isspace(dst[strlen(dst) - 1]))// || strcmp((char*)dst[strlen(dst) - 1], "\r") == 0 || strcmp((char*)dst[strlen(dst) - 1], "\n") == 0)
 	{
 		printf("iter\n");
 		dst[strlen(dst) - 1] = '\0';
