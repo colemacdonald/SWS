@@ -257,6 +257,8 @@ int main( int argc, char ** argv )
 						continue;
 					}
 
+					printf("request: %s\n", request);
+
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
 					parse_request(request, parseBuffer);
