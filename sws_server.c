@@ -275,7 +275,7 @@ int main( int argc, char ** argv )
 					FILE * fp;
 					long int file_size;
 					long int bytes_read;
-					char dir[strlen(directory) + 1];
+					char dir[strlen(directory) + 1024];
 
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
