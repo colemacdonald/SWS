@@ -279,6 +279,8 @@ int main( int argc, char ** argv )
 						strcpy(dir, directory);
 						strcat(dir, parseBuffer[1]);
 
+						printf("dir: %s\n", dir);
+
 						if(!fileExists(dir))
 						{
 							strcat(response, "404 Not Found");
