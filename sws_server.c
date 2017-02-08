@@ -277,17 +277,22 @@ int main( int argc, char ** argv )
 					{
 						//concat requested file onto served directory
 						strcpy(dir, directory);
-						strcat(dir, parseBuffer[1]);
-
-						printf("dir: %s\n", dir);
-
+						if(strcmp(parseBuffer[1], "/") == 0)
+						{
+							strcat(dir, "/index.html");
+						}
+						else
+						{
+							strcat(dir, parseBuffer[1]);
+						}
+						
 						if(!fileExists(dir))
 						{
 							strcat(response, "404 Not Found");
 						}
 						else
 						{
-							printf("dir: %s\n", dir);
+							//printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
 							fp = fopen(dir, "r");
 						}
