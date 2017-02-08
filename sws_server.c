@@ -15,6 +15,7 @@ implements a simple web server using the UDP
 #include <stdlib.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -39,10 +40,8 @@ int checkRequestMethod(char * method)
 	strToUpper(method);
 	if(strcmp(method, "GET") != 0)
 	{
-		printf("Bad method\n");
 		return FALSE;
 	}
-	printf("Good method\n");
 	return TRUE;
 }
 
@@ -50,10 +49,8 @@ int checkURI(char * filepath)
 {
 	if(filepath[0] != '/')
 	{
-		printf("Bad URI\n");
 		return FALSE;
 	}
-	printf("Good URI\n");
 	return TRUE;
 }
 
@@ -73,17 +70,10 @@ int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
 
-	/*while((char)version[strlen(version) - 1] == '\r' || (char)version[strlen(version) - 1] == '\n')
-	{
-		version[strlen(version) - 1] = '\0';
-	}*/
-
 	if(strncmp(version, "HTTP/1.0", 8) != 0)
 	{
-		printf("Bad version\n");
 		return FALSE;
 	}
-	printf("Good version\n");
 	return TRUE;
 }
 
@@ -189,9 +179,9 @@ int main( int argc, char ** argv )
 	int select_result;
 	fd_set read_fds;
    
-	/* FD_ZERO() clears out the called socks, so that it doesn't contain any file descriptors. */
+	// FD_ZERO() clears out the called socks, so that it doesn't contain any file descriptors. 
 	FD_ZERO( &read_fds );
-	/* FD_SET() adds the file descriptor "read_fds" to the fd_set, so that select() will return the character if a key is pressed */
+	// FD_SET() adds the file descriptor "read_fds" to the fd_set, so that select() will return the character if a key is pressed 
 	FD_SET( STDIN_FILENO, &read_fds );
 	FD_SET( sock, &read_fds );
 
@@ -242,7 +232,7 @@ int main( int argc, char ** argv )
 						printf("Error occured.\n");
 						continue;
 					}
-					
+
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
 					parse_request(request, parseBuffer);
@@ -258,7 +248,22 @@ int main( int argc, char ** argv )
 
 						strcat(dir, parseBuffer[1]);
 						printf("Post strcat: %s - ", dir);
-						printf("%d", fileExists(dir));
+						if(!fileExists(dir))
+						{
+							printf("404\n");
+						}
+						else
+						{
+							time_t rawtime;
+							struct tm * timeinfo;
+							char buffer [80];
+
+							time (&rawtime);
+							timeinfo = localtime (&rawtime);
+
+							strftime (buffer,80,"%c",timeinfo);
+							printf("%s\n", buffer);
+						}
 					}
 
 
