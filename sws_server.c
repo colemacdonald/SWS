@@ -269,7 +269,6 @@ int main( int argc, char ** argv )
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
 						strcat(response, "400 Bad Request");
-						printf("%s\n", response);
 					}
 					else
 					{
@@ -280,25 +279,27 @@ int main( int argc, char ** argv )
 
 						if(!fileExists(dir))
 						{
-							printf("404\n");
+							strcat(response, "404 Not Found");
 						}
 						else
 						{
-							//gather time string
-							char timestring [80];
-							getTimeString(timestring);
-
-							//get client ip
-
-							printf("%s ", timestring);
-							printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
-
-							//request string trimmed
-							char a[1024];
-							strTrimInto(a, request);
-							printf("%s;\n", a);
+							strcat(response, "200 OK");
 						}
 					}
+					//gather time string
+					char timestring [80];
+					getTimeString(timestring);
+
+					//get client ip
+
+					printf("%s ", timestring);
+					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
+
+					//request string trimmed
+					char a[1024];
+					strTrimInto(a, request);
+					printf("%s; ", a);
+					printf("%s; ", response);
 
 
 				}
