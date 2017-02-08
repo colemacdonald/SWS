@@ -50,13 +50,12 @@ void strToUpper(char * str)
 void strTrimInto(char * dst, char * src)
 {
 	strcpy(dst, src);
-	printf("dst: %s", dst);
 
 	while(isspace(dst[strlen(dst) - 1]))
 	{
 		dst[strlen(dst) - 1] = '\0';
-		printf("%s - ", dst);
 	}
+	printf("%s - ", dst);
 }
 
 int checkRequestMethod(char * method)
