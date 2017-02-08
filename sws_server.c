@@ -16,6 +16,7 @@ implements a simple web server using the UDP
 #include <ctype.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <arpa/inet.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -274,7 +275,7 @@ int main( int argc, char ** argv )
 							char timestring [80];
 							getTimeString(timestring);
 							printf("%s\n", timestring);
-							printf("%u:%hu\n", sa.sin_addr.s_addr, ntohs(sa.sin_port));
+							printf("%s:%hu\n", inet_ntoa(sa.sin_addr), ntohs(sa.sin_port));
 						}
 					}
 
