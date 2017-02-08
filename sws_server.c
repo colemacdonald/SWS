@@ -55,7 +55,6 @@ void strTrimInto(char * dst, char * src)
 	{
 		dst[strlen(dst) - 1] = '\0';
 	}
-	printf("%s - ", dst);
 }
 
 int checkRequestMethod(char * method)
