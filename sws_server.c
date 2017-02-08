@@ -49,7 +49,7 @@ void strToUpper(char * str)
 
 void strTrimEnd(char * str)
 {
-	while(isspace(str[strlen(str) - 1])
+	while(isspace(str[strlen(str) - 1]))
 	{
 		str[strlen(str) - 1] = '\0';
 	}
