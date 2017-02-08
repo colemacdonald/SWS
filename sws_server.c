@@ -113,7 +113,7 @@ void parse_request(char * request_string, char ** buffer)
 		{
 			buffer[i] = "/index.html";
 		} else {
-			buffer[i] = token;
+			strcpy(buffer[i], token);
 		}
 		token = strtok(NULL, s);
 		i++;
@@ -286,7 +286,7 @@ int main( int argc, char ** argv )
 							//get client ip
 
 							printf("%s ", timestring);
-							printf("%s:%hu\n", inet_ntoa(sa.sin_addr), sa.sin_port);
+							printf("%s:%hu", inet_ntoa(sa.sin_addr), sa.sin_port);
 							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], parseBuffer[2]);
 						}
 					}
