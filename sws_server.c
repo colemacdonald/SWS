@@ -200,15 +200,17 @@ int main( int argc, char ** argv )
 
 	parse_request(request, parseBuffer);
 
+	if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
+	{
+		printf("400\n");
+	}
+
 	if(strcmp(parseBuffer[1], "/") == 0)
 	{
 		strcat(parseBuffer[1], "index.html");
 	}
 
-	if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
-	{
-		printf("400\n");
-	}
+	printf("%s - %s - %s\n", parseBuffer[0], parseBuffer[1], parseBuffer[2]);
 
 	char readbuffer[10];
 
