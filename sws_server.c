@@ -57,6 +57,18 @@ int checkURI(char * filepath)
 	return TRUE;
 }
 
+int fileExists(char * filepath)
+{
+	struct stat buf;
+	int status = stat(filepath, &buf);
+
+	if(status != 0)
+	{
+		return FALSE;
+	}
+	return TRUE;
+}
+
 int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
@@ -256,7 +268,8 @@ int main( int argc, char ** argv )
 						strcpy(dir, directory);
 
 						strcat(dir, parseBuffer[1]);
-						printf("Post strcat: %s\n", dir);
+						printf("Post strcat: %s - ", dir);
+						printf("%d", fileExists(dir));
 					}
 
 
