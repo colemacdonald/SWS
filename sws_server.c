@@ -261,7 +261,7 @@ int main( int argc, char ** argv )
 							time (&rawtime);
 							timeinfo = localtime (&rawtime);
 
-							strftime (buffer,80,"%c",timeinfo);
+							strftime (buffer,80,"%b %d %T",timeinfo);
 							printf("%s\n", buffer);
 						}
 					}
