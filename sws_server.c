@@ -343,8 +343,8 @@ int main( int argc, char ** argv )
 						}
 					}*/
 
-
-					fclose(fp);
+					if(fp)
+						fclose(fp);
 				}
 				break;
 			default:
