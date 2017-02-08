@@ -244,7 +244,6 @@ int main( int argc, char ** argv )
 					}
 					else
 					{
-						free(readbuffer);
 						printf("Unrecoognized command.\n");
 					}
 					//fflush(STDIN_FILENO);
