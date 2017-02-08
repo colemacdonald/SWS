@@ -234,6 +234,7 @@ int main( int argc, char ** argv )
 				//select returned properly
 				if(FD_ISSET(STDIN_FILENO, &read_fds))
 				{
+					printf("stdin\n");
 					read(STDIN_FILENO, readbuffer, 10);
 					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
 					{
