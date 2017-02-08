@@ -287,7 +287,7 @@ int main( int argc, char ** argv )
 						{
 							printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
-							pReqFile = fopen(dir, 'r');
+							pReqFile = fopen(dir, "r");
 							fclose(pReqFile);
 						}
 					}
