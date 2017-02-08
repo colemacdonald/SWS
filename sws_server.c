@@ -47,6 +47,14 @@ void strToUpper(char * str)
 	}
 }
 
+void strTrimEnd(char * str)
+{
+	while(isspace(str[strlen(str) - 1])
+	{
+		str[strlen(str) - 1] = '\0';
+	}
+}
+
 int checkRequestMethod(char * method)
 {
 	strToUpper(method);
@@ -277,8 +285,9 @@ int main( int argc, char ** argv )
 
 							//get client ip
 
-							printf("%s\n", timestring);
+							printf("%s ", timestring);
 							printf("%s:%hu\n", inet_ntoa(sa.sin_addr), sa.sin_port);
+							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], parseBuffer[2]);
 						}
 					}
 
