@@ -217,6 +217,7 @@ int main( int argc, char ** argv )
 	while (1)
 	{
 		//select()
+		fflush(STDIN_FILENO);
 		char readbuffer[1024];
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
