@@ -93,7 +93,7 @@ int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
 
-	if(strncmp(version, "HTTP/1.0", 8) != 0)
+	if(strcmp(version, "HTTP/1.0\r\n\r\n") != 0)
 	{
 		return FALSE;
 	}
@@ -176,8 +176,7 @@ int main( int argc, char ** argv )
 	}
 
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
-	int opt = TRUE;
-	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt));
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
 	//struct sockaddr_in sa; 
 	char buffer[1024];
@@ -288,8 +287,8 @@ int main( int argc, char ** argv )
 						{
 							printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
-							/*pReqFile = fopen(dir, 'r');
-							fclose(pReqFile);*/
+							pReqFile = fopen(dir, 'r');
+							fclose(pReqFile);
 						}
 					}
 					//gather time string
