@@ -217,7 +217,6 @@ int main( int argc, char ** argv )
 	while (1)
 	{
 		//select()
-		fflush(STDIN_FILENO);
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
 		switch( select_result )
@@ -236,6 +235,7 @@ int main( int argc, char ** argv )
 				{
 					printf("stdin\n");
 					read(STDIN_FILENO, readbuffer, 10);
+					fflush(STDIN_FILENO);
 					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
 					{
 						printf("Goodbye!\n");
@@ -246,7 +246,7 @@ int main( int argc, char ** argv )
 					{
 						printf("Unrecoognized command.\n");
 					}
-					fflush(STDIN_FILENO);
+					//fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
 					ssize_t recsize;
