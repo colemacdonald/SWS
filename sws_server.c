@@ -25,6 +25,17 @@ char * port;
 char * directory;
 struct sockaddr_in sa;
 
+void getTimeString(char * buffer)
+{
+	time_t rawtime;
+	struct tm * timeinfo;
+
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+
+	strftime (buffer, 80, "%b %d %T", timeinfo);
+}
+
 void strToUpper(char * str)
 {
 	char * s = str;
@@ -151,6 +162,12 @@ int main( int argc, char ** argv )
 
 	//copied from udp_server.c
 	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if(sock == -1)
+	{
+		close(sock);
+		printf("socket could not be created - please try again\n");
+		return EXIT_FAILURE;
+	}
 
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
 	int opt = TRUE;
@@ -243,26 +260,20 @@ int main( int argc, char ** argv )
 					}
 					else
 					{
+						//concat requested file onto served directory
 						char dir[strlen(directory) + 1];
 						strcpy(dir, directory);
-
 						strcat(dir, parseBuffer[1]);
-						printf("Post strcat: %s - ", dir);
+
 						if(!fileExists(dir))
 						{
 							printf("404\n");
 						}
 						else
 						{
-							time_t rawtime;
-							struct tm * timeinfo;
-							char buffer [80];
-
-							time (&rawtime);
-							timeinfo = localtime (&rawtime);
-
-							strftime (buffer,80,"%b %d %T",timeinfo);
-							printf("%s\n", buffer);
+							char timestring [80];
+							getTimeString(timestring);
+							printf("%s\n", timestring);
 						}
 					}
 
