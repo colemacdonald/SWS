@@ -103,10 +103,9 @@ void parse_request(char * request_string, char ** buffer)
 		if(i == 1 && strcmp(token, "/") == 0)
 		{
 			buffer[i] = "/index.html";
-			i++;
-			continue;
+		} else {
+			buffer[i] = token;
 		}
-		buffer[i] = token;
 		token = strtok(NULL, s);
 		i++;
 	}
