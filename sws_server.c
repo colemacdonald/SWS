@@ -267,7 +267,7 @@ int main( int argc, char ** argv )
 
 					parse_request(tmp, parseBuffer);
 
-					char response[4096];
+					char response[1024];
 					strcpy(response, "HTTP/1.0 ");
 
 					FILE * fp;
@@ -317,6 +317,8 @@ int main( int argc, char ** argv )
 					strTrimInto(requestTrimmed, request);
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
+
+					strcat(response, "\r\n\r\n");
 
 					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
