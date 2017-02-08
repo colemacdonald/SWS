@@ -47,11 +47,13 @@ void strToUpper(char * str)
 	}
 }
 
-void strTrimEnd(char * str)
+void strTrimInto(char * dst, char * src)
 {
-	while(isspace(str[strlen(str) - 1]))
+	strcpy(dst, src);
+
+	while(isspace(dst[strlen(dst) - 1]))
 	{
-		str[strlen(str) - 1] = '\0';
+		dst[strlen(dst) - 1] = '\0';
 	}
 }
 
@@ -113,7 +115,7 @@ void parse_request(char * request_string, char ** buffer)
 		{
 			buffer[i] = "/index.html";
 		} else {
-			strcpy(buffer[i], token);
+			buffer[i] = token;
 		}
 		token = strtok(NULL, s);
 		i++;
@@ -287,7 +289,9 @@ int main( int argc, char ** argv )
 
 							printf("%s ", timestring);
 							printf("%s:%hu", inet_ntoa(sa.sin_addr), sa.sin_port);
-							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], parseBuffer[2]);
+							char a[1024];
+							strTrimInto(a, parseBuffer[2]);
+							printf("%s %s %s;", parseBuffer[0], parseBuffer[1], a);
 						}
 					}
 
