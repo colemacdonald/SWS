@@ -322,8 +322,6 @@ int main( int argc, char ** argv )
 
 					strcat(response, "\r\n\r\n");
 
-					printf("req: %s trimmed: %s\n", request, requestTrimmed);
-
 					//sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
 					/*if(fp)
