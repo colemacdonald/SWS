@@ -281,6 +281,8 @@ int main( int argc, char ** argv )
 
 					strcpy(tmp, request);
 
+					printf("3\n");
+
 					parse_request(tmp, parseBuffer);
 
 					char response[1024];
@@ -319,6 +321,9 @@ int main( int argc, char ** argv )
 							fp = fopen(dir, "r");
 						}
 					}
+
+					printf("4\n");
+
 					//gather time string
 					char timestring [80];
 					getTimeString(timestring);
