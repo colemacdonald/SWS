@@ -318,7 +318,7 @@ int main( int argc, char ** argv )
 						{
 							//printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
-							fp = fopen(dir, "r");
+							//fp = fopen(dir, "r");
 						}
 					}
 
