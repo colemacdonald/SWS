@@ -359,6 +359,8 @@ int main( int argc, char ** argv )
 
 					strcat(response, "\r\n\r\n");
 
+					printf("9\n");
+
 					//sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
 					/*if(fp)
@@ -387,7 +389,7 @@ int main( int argc, char ** argv )
 						fclose(fp);
 						fp = NULL;
 					}
-					printf("\n");
+					printf("10\n");
 
 				}
 				break;
