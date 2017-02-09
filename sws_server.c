@@ -341,7 +341,7 @@ int main( int argc, char ** argv )
 
 					if(fp)
 					{
-						printf("%s\n", dir);
+						printf("%s", dir);
 
 						fseek(fp, 0L, SEEK_END); //read to end
 						file_size = ftell(fp);
@@ -362,12 +362,12 @@ int main( int argc, char ** argv )
 						else
 						{
 							//sending large file
-							/*int index = 0;
+							int index = 0;
 							while(index < bytes_read)
 							{
-								sendto(sock, );
+								sendto(sock, &filebuffer[index], BUFFER_SIZE, 0, (struct sockaddr*)&sa, sizeof sa);
 								index += BUFFER_SIZE;
-							}*/
+							}
 						}
 					}
 					printf("\n");
