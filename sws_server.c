@@ -279,7 +279,7 @@ int main( int argc, char ** argv )
 
 					printf("2\n");
 
-					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
+					//char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 					/*parseBuffer[0] = (char*)malloc(1024*sizeof(char));
 					parseBuffer[1] = (char*)malloc(1024*sizeof(char));
 					parseBuffer[2] = (char*)malloc(1024*sizeof(char));*/
@@ -313,13 +313,13 @@ int main( int argc, char ** argv )
 					{
 						//concat requested file onto served directory
 						strcpy(dir, directory);
-						if(strcmp(parseBuffer[1], "/") == 0)
+						if(strcmp(uri/*parseBuffer[1]*/, "/") == 0)
 						{
 							strcat(dir, "/index.html");
 						}
 						else
 						{
-							strcat(dir, parseBuffer[1]);
+							strcat(dir, uri/*parseBuffer[1]*/);
 						}
 						
 						if(!fileExists(dir))
