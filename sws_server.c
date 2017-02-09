@@ -258,7 +258,8 @@ int main( int argc, char ** argv )
 					fflush(STDIN_FILENO);
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
-					char request[4096];
+					//char request[4096];
+					char * request = malloc(1024*sizeof(char));
 
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
 					if(recsize == -1)
@@ -324,7 +325,7 @@ int main( int argc, char ** argv )
 					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
 
 					//request string trimmed
-					char requestTrimmed[1024];
+					char * requestTrimmed = malloc(1024*sizeof(char));
 
 					strTrimInto(requestTrimmed, request);
 
@@ -332,6 +333,10 @@ int main( int argc, char ** argv )
 
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
+
+
+					free(requestTrimmed);
+					free(request);
 
 					//printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
 
