@@ -54,7 +54,11 @@ void strToUpper(char * str)
 
 void strTrimInto(char * dst, char * src)
 {
-	strncpy(dst, src, strcspn(src, "\r\n"));
+	int len = strcspn(src, "\r\n");
+
+	strncpy(dst, src, len);
+
+	dst[len] = '\0';
 
 	//printf("dst: %s\n", dst);
 
