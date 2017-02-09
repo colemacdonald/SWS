@@ -110,22 +110,29 @@ int checkHTTPVersion(char * version)
 	return TRUE;
 }
 
-void parse_request(char * request_string, char ** buffer)
+void parse_request(char * request_string, char * method, char * uri, char * version)//char ** buffer)
 {
 	const char s[2] = " ";
 
 	char * token;
 
 	token = strtok(request_string, s);
+	method = token;
 
-	int i = 0;
+	token = strtok(NULL, s);
+	uri = token;
+
+	token = strtok(NULL, s);
+	version = token;
+
+	/*int i = 0;
 
 	while(token != NULL && i < 3)//buffer only has 3 spots
 	{
 		buffer[i] = token;
 		token = strtok(NULL, s);
 		i++;
-	}
+	}*/
 }
 
 int directoryExists(char * directory)
@@ -283,7 +290,12 @@ int main( int argc, char ** argv )
 
 					printf("3\n");
 
-					parse_request(tmp, parseBuffer);
+
+					char method[1024];
+					char uri[1024];
+					char version[1024];
+
+					parse_request(tmp, method, uri, version);
 
 					char response[1024];
 					strcpy(response, "HTTP/1.0 ");
@@ -293,7 +305,7 @@ int main( int argc, char ** argv )
 					long int bytes_read;
 					char dir[strlen(directory) + 1024];
 
-					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
+					if(!checkRequestMethod(method) || !checkURI(uri) || !checkHTTPVersion(version))
 					{
 						strcat(response, "400 Bad Request");
 					}
