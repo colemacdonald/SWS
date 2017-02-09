@@ -336,7 +336,11 @@ int main( int argc, char ** argv )
 					//request string trimmed
 					char * requestTrimmed = malloc(1024*sizeof(char));
 
+					printf("5\n");
+
 					strTrimInto(requestTrimmed, request);
+
+					printf("6\n");
 
 					printf("{ req: %s - trimmed: %s }", request, requestTrimmed);
 
@@ -344,8 +348,12 @@ int main( int argc, char ** argv )
 					printf("%s; ", response);
 
 
+					printf("7\n");
+
 					free(requestTrimmed);
 					free(request);
+
+					printf("8\n");
 
 					//printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
 
