@@ -258,8 +258,8 @@ int main( int argc, char ** argv )
 					fflush(STDIN_FILENO);
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
-					//char request[4096];
-					char * request = malloc(1024*sizeof(char));
+					char request[4096];
+					//char * request = malloc(1024*sizeof(char));
 
 					printf("1\n");
 
@@ -318,7 +318,7 @@ int main( int argc, char ** argv )
 						{
 							//printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
-							//fp = fopen(dir, "r");
+							fp = fopen(dir, "r");
 						}
 					}
 
@@ -334,8 +334,9 @@ int main( int argc, char ** argv )
 					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
 
 					//request string trimmed
-					char * requestTrimmed = malloc(1024*sizeof(char));
-
+					//char * requestTrimmed = malloc(1024*sizeof(char));
+					char requestTrimmed[1024];
+					
 					printf("5\n");
 
 					strTrimInto(requestTrimmed, request);
@@ -350,8 +351,8 @@ int main( int argc, char ** argv )
 
 					printf("7\n");
 
-					free(requestTrimmed);
-					free(request);
+					/*free(requestTrimmed);
+					free(request);*/
 
 					printf("8\n");
 
@@ -384,11 +385,11 @@ int main( int argc, char ** argv )
 						}
 					}*/
 
-					/*if(fp)
+					if(fp)
 					{
 						fclose(fp);
 						fp = NULL;
-					}*/
+					}
 					printf("10\n");
 
 				}
