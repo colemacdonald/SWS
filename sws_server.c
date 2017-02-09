@@ -262,10 +262,10 @@ int main( int argc, char ** argv )
 					}
 
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
-					parseBuffer[0] = char[1024];
-					parseBuffer[1] = char[1024];
-					parseBuffer[2] = char[1024];
-					
+					parseBuffer[0] = (char*)malloc(1024*sizeof(char));
+					parseBuffer[1] = (char*)malloc(1024*sizeof(char));
+					parseBuffer[2] = (char*)malloc(1024*sizeof(char));
+
 					char tmp[strlen(request) + 1];
 
 					strcpy(tmp, request);
