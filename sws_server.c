@@ -21,15 +21,27 @@ Basis of file is from udp_server.c as shown in lab 2
 #include <arpa/inet.h>
 #include <stdio.h>
 
+////////////////////////////////////////////////////////////////////////////////////////////
+//										CONSTANTS
+////////////////////////////////////////////////////////////////////////////////////////////
+
 #define TRUE 1
 #define FALSE 0
 #define BUFFER_SIZE 1024
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//										GLOBAL VARIABLES
+////////////////////////////////////////////////////////////////////////////////////////////
 
 int sock;
 char * port;
 char * directory;
 struct sockaddr_in sa;
 char sendBuffer[BUFFER_SIZE];
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//										HELPER FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////////////////
 
 void getTimeString(char * buffer)
 {
@@ -168,37 +180,15 @@ void printLogString(char * request, char * response, struct sockaddr_in sa, char
 	printf("%s %s:%hu %s; %s; %s\n",timestring, inet_ntoa(sa.sin_addr), sa.sin_port, requestTrimmed, response, file);
 }
 
-int main( int argc, char ** argv )
+int prepareSocket()
 {
-	if( argc != 3)
-	{
-		printf("Incorrect number of arguments. Run as follows:\n ./sws <port> <directory>");
-		return EXIT_FAILURE;
-	}
-
-	port = argv[1];
-	directory = argv[2];
-	strcat(port, "\0");
-	if((char)directory[strlen(directory) - 1] == '/')
-	{
-		directory[strlen(directory) - 1] = '\0';
-	} else 
-	{
-		strcat(directory, "\0");
-	}
-
-	if(!directoryExists(directory))
-	{
-		return EXIT_FAILURE;
-	}
-
 	//copied from udp_server.c
 	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if(sock == -1)
 	{
 		close(sock);
 		printf("socket could not be created - please try again\n");
-		return EXIT_FAILURE;
+		return FALSE;
 	}
 
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
@@ -220,6 +210,45 @@ int main( int argc, char ** argv )
 	{
 		printf("socket could not be bound\n");
 		close(sock);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//										MAIN
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+int main( int argc, char ** argv )
+{
+	if( argc != 3)
+	{
+		printf("Incorrect number of arguments. Run as follows:\n ./sws <port> <directory>");
+		return EXIT_FAILURE;
+	}
+
+	port = argv[1];
+	directory = argv[2];
+
+	//avoid double / (//) in filepath
+	if((char)directory[strlen(directory) - 1] == '/')
+	{
+		directory[strlen(directory) - 1] = '\0';
+	} else 
+	{
+		strcat(directory, "\0");
+	}
+
+	if(!directoryExists(directory))
+	{
+		printf("Directory does not exist. Given: %s\n", directory);
+		return EXIT_FAILURE;
+	}
+
+	if(!prepareSocket())
+	{
 		return EXIT_FAILURE;
 	}
 
@@ -240,7 +269,7 @@ int main( int argc, char ** argv )
 
 		//select()
 		fflush(STDIN_FILENO);
-		char readbuffer[1024];
+		char readbuffer[BUFFER_SIZE];
 
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
@@ -258,7 +287,7 @@ int main( int argc, char ** argv )
 				//select returned properly
 				if(FD_ISSET(STDIN_FILENO, &read_fds))
 				{
-					read(STDIN_FILENO, readbuffer, 1024);
+					read(STDIN_FILENO, readbuffer, BUFFER_SIZE);
 					//fflush(STDIN_FILENO);
 					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
 					{
@@ -276,7 +305,7 @@ int main( int argc, char ** argv )
 					fflush(STDIN_FILENO);
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
-					char request[4096];
+					char request[BUFFER_SIZE];
 
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
 					if(recsize == -1)
@@ -293,13 +322,13 @@ int main( int argc, char ** argv )
 
 					parse_request(tmp, parseBuffer);
 
-					char response[1024];
+					char response[BUFFER_SIZE];
 					strcpy(response, "HTTP/1.0 ");
 
 					FILE * fp;
 					long int file_size;
 					long int bytes_read;
-					char dir[strlen(directory) + 1024];
+					char dir[strlen(directory) + BUFFER_SIZE];
 
 					int boolFileExists = FALSE;
 
@@ -343,8 +372,6 @@ int main( int argc, char ** argv )
 					}
 
 					strcat(response, "\r\n\r\n");
-
-					//printf("9\n");
 
 					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
