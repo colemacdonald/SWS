@@ -125,6 +125,8 @@ void parse_request(char * request_string, char * method, char * uri, char * vers
 	token = strtok(NULL, s);
 	version = token;
 
+	printf("method: %s, uri: %s, version: %s", method, uri, version);
+
 	/*int i = 0;
 
 	while(token != NULL && i < 3)//buffer only has 3 spots
