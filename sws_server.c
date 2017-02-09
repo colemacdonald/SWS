@@ -300,6 +300,8 @@ int main( int argc, char ** argv )
 
 					parse_request(tmp, method, uri, version);
 
+					printf("method is: %s\n", method);
+
 					char response[1024];
 					strcpy(response, "HTTP/1.0 ");
 
