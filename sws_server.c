@@ -261,12 +261,16 @@ int main( int argc, char ** argv )
 					//char request[4096];
 					char * request = malloc(1024*sizeof(char));
 
+					printf("1\n");
+
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
 					if(recsize == -1)
 					{
 						printf("Error occured.\n");
 						continue;
 					}
+
+					printf("2\n");
 
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 					/*parseBuffer[0] = (char*)malloc(1024*sizeof(char));
