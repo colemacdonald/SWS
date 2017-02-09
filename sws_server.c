@@ -357,7 +357,7 @@ int main( int argc, char ** argv )
 
 						if(bytes_read < BUFFER_SIZE)
 						{
-							sendto(sock, filebuffer, file_size, 0, (struct sockaddr*)&sa, sizeof sa));
+							sendto(sock, filebuffer, file_size, 0, (struct sockaddr*)&sa, sizeof sa);
 						}
 						else
 						{
