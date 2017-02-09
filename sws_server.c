@@ -339,6 +339,8 @@ int main( int argc, char ** argv )
 
 					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
+					printf("1\n");
+
 					if(fp)
 					{
 						printf("%s", dir);
@@ -355,7 +357,7 @@ int main( int argc, char ** argv )
 
 						char sendbuffer[BUFFER_SIZE];
 
-						if(bytes_read < BUFFER_SIZE)
+						if(bytes_read <= BUFFER_SIZE)
 						{
 							sendto(sock, filebuffer, file_size, 0, (struct sockaddr*)&sa, sizeof sa);
 						}
@@ -370,7 +372,7 @@ int main( int argc, char ** argv )
 							}
 						}
 					}
-					printf("\n");
+					printf("2\n");
 				}
 				break;
 			default:
