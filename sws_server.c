@@ -67,6 +67,7 @@ void strTrimInto(char * dst, char * src)
 
 int checkRequestMethod(char * method)
 {
+	printf("meth: %s\n", method);
 	strToUpper(method);
 	if(strcmp(method, "GET") != 0)
 	{
