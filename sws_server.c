@@ -288,7 +288,7 @@ int main( int argc, char ** argv )
 					long int bytes_read;
 					char dir[strlen(directory) + 1024];
 
-					int fileExists = FALSE;
+					int boolFileExists = FALSE;
 
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
@@ -316,7 +316,7 @@ int main( int argc, char ** argv )
 							//printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
 							fp = fopen(dir, "r");
-							fileExists = TRUE;
+							boolFileExists = TRUE;
 						}
 					}
 
@@ -344,7 +344,7 @@ int main( int argc, char ** argv )
 
 					printf("1\n");
 
-					if(fileExists)
+					if(boolFileExists)
 					{
 						printf("%s", dir);
 
