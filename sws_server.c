@@ -218,6 +218,7 @@ int main( int argc, char ** argv )
 		//select()
 		fflush(STDIN_FILENO);
 		char readbuffer[1024];
+
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
 		switch( select_result )
@@ -356,9 +357,9 @@ int main( int argc, char ** argv )
 						fp = NULL;
 					}
 					printf("\n");
-					free(parseBuffer[0]);
-					free(parseBuffer[1]);
-					free(parseBuffer[2]);
+					parseBuffer[0][0] = '\0';
+					parseBuffer[1][0] = '\0';
+					parseBuffer[2][0] = '\0';
 
 				}
 				break;
@@ -367,11 +368,8 @@ int main( int argc, char ** argv )
 				break;
 				//wtf
 
-		}
-		//handle requests
-		// use recvfrom() --> "normally used for connectionless-mode sockets because it permits the application
-		// to retrieve the source address of the received data"
-	}
+		}//end switch
+	}//end while
 
 
 	close(sock);
