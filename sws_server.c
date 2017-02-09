@@ -56,6 +56,8 @@ void strTrimInto(char * dst, char * src)
 {
 	strncpy(dst, src, strlen(src) - 4);
 
+	printf("dst: %s\n", dst);
+	
 	while(isspace(dst[strlen(dst) - 1]))// || strcmp((char*)dst[strlen(dst) - 1], "\r") == 0 || strcmp((char*)dst[strlen(dst) - 1], "\n") == 0)
 	{
 		printf("iter\n");
@@ -266,9 +268,9 @@ int main( int argc, char ** argv )
 					}
 
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
-					parseBuffer[0] = (char*)malloc(1024*sizeof(char));
+					/*parseBuffer[0] = (char*)malloc(1024*sizeof(char));
 					parseBuffer[1] = (char*)malloc(1024*sizeof(char));
-					parseBuffer[2] = (char*)malloc(1024*sizeof(char));
+					parseBuffer[2] = (char*)malloc(1024*sizeof(char));*/
 
 					char tmp[strlen(request) + 1];
 
