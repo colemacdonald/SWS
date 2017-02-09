@@ -302,13 +302,13 @@ int main( int argc, char ** argv )
 					{
 						//concat requested file onto served directory
 						strcpy(dir, directory);
-						if(strcmp(uri/*parseBuffer[1]*/, "/") == 0)
+						if(strcmp(parseBuffer[1], "/") == 0)
 						{
 							strcat(dir, "/index.html");
 						}
 						else
 						{
-							strcat(dir, uri/*parseBuffer[1]*/);
+							strcat(dir, parseBuffer[1]);
 						}
 						
 						if(!fileExists(dir))
