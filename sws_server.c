@@ -155,6 +155,25 @@ int directoryExists(char * directory)
 	}
 }
 
+void printLogString(char * request, char * response, struct sockaddr_in sa)
+{
+	//gather time string
+	char timestring [80];
+	getTimeString(timestring);
+
+	printf("%s ", timestring);
+
+	//ip and port
+	printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
+
+	char requestTrimmed[1024];
+
+	strTrimInto(requestTrimmed, request);
+
+	printf("%s; ", requestTrimmed);
+	printf("%s; ", response);
+}
+
 int main( int argc, char ** argv )
 {
 	if( argc != 3)
@@ -268,7 +287,7 @@ int main( int argc, char ** argv )
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
 					if(recsize == -1)
 					{
-						printf("Error occured.\n");
+						//printf("Error occured.\n");
 						continue;
 					}
 
@@ -336,6 +355,8 @@ int main( int argc, char ** argv )
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
 
+					printLogString(request, response, sa);
+
 					strcat(response, "\r\n\r\n");
 
 					//printf("9\n");
@@ -377,7 +398,7 @@ int main( int argc, char ** argv )
 				}
 				break;
 			default:
-				printf("Default select hit.");
+				//printf("Default select hit.");
 				break;
 				//wtf
 
