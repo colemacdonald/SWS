@@ -355,7 +355,7 @@ int main( int argc, char ** argv )
 
 					//printf("6\n");
 
-					printf("{ req: %s - trimmed: %s }", request, requestTrimmed);
+					//printf("{ req: %s - trimmed: %s }", request, requestTrimmed);
 
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
