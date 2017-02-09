@@ -262,7 +262,10 @@ int main( int argc, char ** argv )
 					}
 
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
-
+					parseBuffer[0] = char[1024];
+					parseBuffer[1] = char[1024];
+					parseBuffer[2] = char[1024];
+					
 					char tmp[strlen(request) + 1];
 
 					strcpy(tmp, request);
@@ -353,7 +356,8 @@ int main( int argc, char ** argv )
 						fp = NULL;
 					}
 					printf("\n");
-					free(parseBuffer);
+					//free(parseBuffer);
+
 				}
 				break;
 			default:
