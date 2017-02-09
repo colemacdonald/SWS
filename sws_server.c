@@ -342,8 +342,6 @@ int main( int argc, char ** argv )
 
 					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
-					printf("1\n");
-
 					if(boolFileExists)
 					{
 						printf("%s", dir);
@@ -375,7 +373,7 @@ int main( int argc, char ** argv )
 							}
 						}
 					}
-					printf("2\n");
+					printf("\n");
 				}
 				break;
 			default:
