@@ -356,7 +356,9 @@ int main( int argc, char ** argv )
 						fp = NULL;
 					}
 					printf("\n");
-					//free(parseBuffer);
+					free(parseBuffer[0]);
+					free(parseBuffer[1]);
+					free(parseBuffer[2]);
 
 				}
 				break;
