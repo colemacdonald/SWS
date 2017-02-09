@@ -288,6 +288,8 @@ int main( int argc, char ** argv )
 					long int bytes_read;
 					char dir[strlen(directory) + 1024];
 
+					int fileExists = FALSE;
+
 					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
 					{
 						strcat(response, "400 Bad Request");
@@ -314,6 +316,7 @@ int main( int argc, char ** argv )
 							//printf("dir: %s\n", dir);
 							strcat(response, "200 OK");
 							fp = fopen(dir, "r");
+							fileExists = TRUE;
 						}
 					}
 
@@ -341,7 +344,7 @@ int main( int argc, char ** argv )
 
 					printf("1\n");
 
-					if(fp)
+					if(fileExists)
 					{
 						printf("%s", dir);
 
