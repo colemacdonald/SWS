@@ -402,7 +402,7 @@ int main( int argc, char ** argv )
 						fclose(fp);
 						fp = NULL;
 					}
-					//printf("10\n");
+					printf("\n");
 
 				}
 				break;
