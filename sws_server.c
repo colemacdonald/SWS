@@ -371,9 +371,6 @@ int main( int argc, char ** argv )
 						fp = NULL;
 					}
 					printf("\n");
-					parseBuffer[0][0] = '\0';
-					parseBuffer[1][0] = '\0';
-					parseBuffer[2][0] = '\0';
 
 				}
 				break;
