@@ -155,23 +155,17 @@ int directoryExists(char * directory)
 	}
 }
 
-void printLogString(char * request, char * response, struct sockaddr_in sa)
+void printLogString(char * request, char * response, struct sockaddr_in sa, char * file)
 {
 	//gather time string
 	char timestring [80];
 	getTimeString(timestring);
 
-	printf("%s ", timestring);
-
-	//ip and port
-	printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
-
 	char requestTrimmed[1024];
 
 	strTrimInto(requestTrimmed, request);
 
-	printf("%s; ", requestTrimmed);
-	printf("%s; ", response);
+	printf("%s %s:%hu %s; %s; %s\n",timestring, inet_ntoa(sa.sin_addr), sa.sin_port, requestTrimmed, response, file);
 }
 
 int main( int argc, char ** argv )
@@ -339,23 +333,14 @@ int main( int argc, char ** argv )
 						}
 					}
 
-					//gather time string
-					char timestring [80];
-					getTimeString(timestring);
-
-					printf("%s ", timestring);
-
-					//ip and port
-					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
-
-					char requestTrimmed[1024];
-
-					strTrimInto(requestTrimmed, request);
-
-					printf("%s; ", requestTrimmed);
-					printf("%s; ", response);
-
-					printLogString(request, response, sa);
+					if(boolFileExists)
+					{
+						printLogString(request, response, sa, dir);
+					}
+					else
+					{
+						printLogString(request, response, sa, "");
+					}
 
 					strcat(response, "\r\n\r\n");
 
@@ -365,8 +350,6 @@ int main( int argc, char ** argv )
 
 					if(boolFileExists)
 					{
-						printf("%s", dir);
-
 						fseek(fp, 0L, SEEK_END); //read to end
 						file_size = ftell(fp);
 						fseek(fp, 0L, SEEK_SET); //set pointer back to start
@@ -394,7 +377,6 @@ int main( int argc, char ** argv )
 							}
 						}
 					}
-					printf("\n");
 				}
 				break;
 			default:
