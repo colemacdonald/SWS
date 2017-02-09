@@ -325,7 +325,11 @@ int main( int argc, char ** argv )
 
 					//request string trimmed
 					char requestTrimmed[1024];
+
 					strTrimInto(requestTrimmed, request);
+
+					printf("{ req: %s - trimmed: %s }", request, requestTrimmed);
+
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
 
