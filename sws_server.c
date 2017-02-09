@@ -70,7 +70,7 @@ int checkRequestMethod(char * method)
 	strToUpper(method);
 	if(strcmp(method, "GET") != 0)
 	{
-		printf("bad method: %s\n", method);
+		//printf("bad method: %s\n", method);
 		return FALSE;
 	}
 	return TRUE;
@@ -80,7 +80,7 @@ int checkURI(char * filepath)
 {
 	if(filepath[0] != '/')
 	{
-		printf("bad uri: %s\n", filepath);
+		//printf("bad uri: %s\n", filepath);
 		return FALSE;
 	}
 	return TRUE;
@@ -104,7 +104,7 @@ int checkHTTPVersion(char * version)
 
 	if(strncmp(version, "HTTP/1.0\r\n\r\n", 12) != 0)
 	{
-		printf("bad version: %s\n", version);
+		//printf("bad version: %s\n", version);
 		return FALSE;
 	}
 	return TRUE;
