@@ -100,7 +100,7 @@ int checkHTTPVersion(char * version)
 {
 	strToUpper(version);
 
-	if(strcmp(version, "HTTP/1.0\r\n\r\n") != 0)
+	if(strncmp(version, "HTTP/1.0\r\n\r\n", 12) != 0)
 	{
 		printf("bad version: %s\n", version);
 		return FALSE;
