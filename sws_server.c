@@ -264,9 +264,6 @@ int main( int argc, char ** argv )
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
 					char request[4096];
-					//char * request = malloc(1024*sizeof(char));
-
-					//printf("1\n");
 
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
 					if(recsize == -1)
@@ -275,15 +272,11 @@ int main( int argc, char ** argv )
 						continue;
 					}
 
-					//printf("2\n");
-
 					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 
 					char tmp[strlen(request) + 1];
 
 					strcpy(tmp, request);
-
-					//printf("3\n");
 
 					parse_request(tmp, parseBuffer);
 
@@ -324,8 +317,6 @@ int main( int argc, char ** argv )
 						}
 					}
 
-					//printf("4\n");
-
 					//gather time string
 					char timestring [80];
 					getTimeString(timestring);
@@ -335,30 +326,12 @@ int main( int argc, char ** argv )
 					//ip and port
 					printf("%s:%hu ", inet_ntoa(sa.sin_addr), sa.sin_port);
 
-					//request string trimmed
-					//char * requestTrimmed = malloc(1024*sizeof(char));
 					char requestTrimmed[1024];
-
-					//printf("5\n");
 
 					strTrimInto(requestTrimmed, request);
 
-					//printf("6\n");
-
-					//printf("{ req: %s - trimmed: %s }", request, requestTrimmed);
-
 					printf("%s; ", requestTrimmed);
 					printf("%s; ", response);
-
-
-					//printf("7\n");
-
-					/*free(requestTrimmed);
-					free(request);*/
-
-					//printf("8\n");
-
-					//printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
 
 					strcat(response, "\r\n\r\n");
 
@@ -366,7 +339,7 @@ int main( int argc, char ** argv )
 
 					sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
-					/*if(fp)
+					if(fp)
 					{
 						printf("%s\n", dir);
 
@@ -378,22 +351,26 @@ int main( int argc, char ** argv )
 
 						bytes_read = fread(filebuffer, sizeof(char), file_size, fp);
 
-						//sending large file
-						int index = 0;
-						while(index < bytes_read)
-						{
-							sendto(sock, );
-							index += BUFFER_SIZE;
-						}
-					}*/
-
-					if(fp)
-					{
 						fclose(fp);
-						fp = NULL;
+
+						char sendbuffer[BUFFER_SIZE];
+
+						if(bytes_read < BUFFER_SIZE)
+						{
+							sendto(sock, filebuffer, file_size, 0, (struct sockaddr*)&sa, sizeof sa));
+						}
+						else
+						{
+							//sending large file
+							/*int index = 0;
+							while(index < bytes_read)
+							{
+								sendto(sock, );
+								index += BUFFER_SIZE;
+							}*/
+						}
 					}
 					printf("\n");
-
 				}
 				break;
 			default:
