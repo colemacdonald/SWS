@@ -268,7 +268,7 @@ int main( int argc, char ** argv )
 					char request[4096];
 					//char * request = malloc(1024*sizeof(char));
 
-					printf("1\n");
+					//printf("1\n");
 
 					recsize = recvfrom(sock, (void*) request, sizeof request, 0, (struct sockaddr*)&sa, &fromlen);
 					if(recsize == -1)
@@ -277,7 +277,7 @@ int main( int argc, char ** argv )
 						continue;
 					}
 
-					printf("2\n");
+					//printf("2\n");
 
 					//char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
 					/*parseBuffer[0] = (char*)malloc(1024*sizeof(char));
@@ -288,7 +288,7 @@ int main( int argc, char ** argv )
 
 					strcpy(tmp, request);
 
-					printf("3\n");
+					//printf("3\n");
 
 
 					char method[1024];
@@ -334,7 +334,7 @@ int main( int argc, char ** argv )
 						}
 					}
 
-					printf("4\n");
+					//printf("4\n");
 
 					//gather time string
 					char timestring [80];
@@ -349,11 +349,11 @@ int main( int argc, char ** argv )
 					//char * requestTrimmed = malloc(1024*sizeof(char));
 					char requestTrimmed[1024];
 
-					printf("5\n");
+					//printf("5\n");
 
 					strTrimInto(requestTrimmed, request);
 
-					printf("6\n");
+					//printf("6\n");
 
 					printf("{ req: %s - trimmed: %s }", request, requestTrimmed);
 
@@ -361,18 +361,18 @@ int main( int argc, char ** argv )
 					printf("%s; ", response);
 
 
-					printf("7\n");
+					//printf("7\n");
 
 					/*free(requestTrimmed);
 					free(request);*/
 
-					printf("8\n");
+					//printf("8\n");
 
 					//printf("\nreq: %s trimmed: %s\n", request, requestTrimmed);
 
 					strcat(response, "\r\n\r\n");
 
-					printf("9\n");
+					//printf("9\n");
 
 					//sendto(sock, response, strlen(response), 0, (struct sockaddr*)&sa, sizeof sa);
 
@@ -402,7 +402,7 @@ int main( int argc, char ** argv )
 						fclose(fp);
 						fp = NULL;
 					}
-					printf("10\n");
+					//printf("10\n");
 
 				}
 				break;
