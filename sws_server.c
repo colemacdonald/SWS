@@ -203,20 +203,18 @@ int main( int argc, char ** argv )
 	//prep fdset
 	int select_result;
 	fd_set read_fds;
-   
-	// FD_ZERO() clears out the called socks, so that it doesn't contain any file descriptors. 
-	FD_ZERO( &read_fds );
-	// FD_SET() adds the file descriptor "read_fds" to the fd_set, so that select() will return the character if a key is pressed 
-	FD_SET( STDIN_FILENO, &read_fds );
-	FD_SET( sock, &read_fds );
 
 	printf("sws is running on UDP port %s and serving %s\n", port, directory);
 	printf("press 'q' to quit ...\n");
 
-	
-
 	while (1)
 	{
+		// FD_ZERO() clears out the called socks, so that it doesn't contain any file descriptors. 
+		FD_ZERO( &read_fds );
+		// FD_SET() adds the file descriptor "read_fds" to the fd_set, so that select() will return the character if a key is pressed 
+		FD_SET( STDIN_FILENO, &read_fds );
+		FD_SET( sock, &read_fds );
+
 		//select()
 		fflush(STDIN_FILENO);
 		char readbuffer[1024];
@@ -355,6 +353,7 @@ int main( int argc, char ** argv )
 						fp = NULL;
 					}
 					printf("\n");
+					free(parseBuffer);
 				}
 				break;
 			default:
