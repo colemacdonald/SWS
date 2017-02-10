@@ -237,10 +237,7 @@ int main( int argc, char ** argv )
 		return EXIT_FAILURE;
 	}
 
-	int i = prepareSocket();
-	printf("i = %d\n", i);
-
-	if(!i)
+	if(!prepareSocket())
 	{
 		return EXIT_FAILURE;
 	}
@@ -248,6 +245,10 @@ int main( int argc, char ** argv )
 	//prep fdset
 	int select_result;
 	fd_set read_fds;
+
+	FD_ZERO( &read_fds );
+	FD_SET( STDIN_FILENO, &read_fds );
+	FD_SET( sock, &read_fds );
 
 	printf("sws is running on UDP port %s and serving %s\n", port, directory);
 	printf("press 'q' to quit ...\n");
