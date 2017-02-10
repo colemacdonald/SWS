@@ -37,7 +37,6 @@ int sock;
 char * port;
 char * directory;
 struct sockaddr_in sa;
-char sendBuffer[BUFFER_SIZE];
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //										HELPER FUNCTIONS
@@ -71,14 +70,6 @@ void strTrimInto(char * dst, char * src)
 	strncpy(dst, src, len);
 
 	dst[len] = '\0';
-
-	//printf("dst: %s\n", dst);
-
-	while(isspace(dst[strlen(dst) - 1]))// || strcmp((char*)dst[strlen(dst) - 1], "\r") == 0 || strcmp((char*)dst[strlen(dst) - 1], "\n") == 0)
-	{
-		printf("iter\n");
-		dst[strlen(dst) - 1] = '\0';
-	}
 }
 
 int checkRequestMethod(char * method)
@@ -261,15 +252,13 @@ int main( int argc, char ** argv )
 
 	while (1)
 	{
-		// FD_ZERO() clears out the called socks, so that it doesn't contain any file descriptors. 
+		//ensure stdin does not unneccesarily trigger select
+		fflush(STDIN_FILENO);
+
+		//prepare the fd_set
 		FD_ZERO( &read_fds );
-		// FD_SET() adds the file descriptor "read_fds" to the fd_set, so that select() will return the character if a key is pressed 
 		FD_SET( STDIN_FILENO, &read_fds );
 		FD_SET( sock, &read_fds );
-
-		//select()
-		fflush(STDIN_FILENO);
-		char readbuffer[BUFFER_SIZE];
 
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
@@ -287,6 +276,7 @@ int main( int argc, char ** argv )
 				//select returned properly
 				if(FD_ISSET(STDIN_FILENO, &read_fds))
 				{
+					char readbuffer[BUFFER_SIZE];
 					read(STDIN_FILENO, readbuffer, BUFFER_SIZE);
 					//fflush(STDIN_FILENO);
 					if(strncmp(readbuffer, "q", 1) == 0) //what was entered STARTS WITH q TODO: change to only q
@@ -302,7 +292,6 @@ int main( int argc, char ** argv )
 					//fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
-					fflush(STDIN_FILENO);
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
 					char request[BUFFER_SIZE];
@@ -314,13 +303,12 @@ int main( int argc, char ** argv )
 						continue;
 					}
 
-					char * parseBuffer[3]; //[0] == request method, [1] == request file, [2] == connection type
+					//[0] == request method, [1] == request file, [2] == connection type
+					char * arrRequest[3];
 
 					char tmp[strlen(request) + 1];
-
 					strcpy(tmp, request);
-
-					parse_request(tmp, parseBuffer);
+					parse_request(tmp, arrRequest);
 
 					char response[BUFFER_SIZE];
 					strcpy(response, "HTTP/1.0 ");
@@ -332,7 +320,7 @@ int main( int argc, char ** argv )
 
 					int boolFileExists = FALSE;
 
-					if(!checkRequestMethod(parseBuffer[0]) || !checkURI(parseBuffer[1]) || !checkHTTPVersion(parseBuffer[2]))
+					if(!checkRequestMethod(arrRequest[0]) || !checkURI(arrRequest[1]) || !checkHTTPVersion(arrRequest[2]))
 					{
 						strcat(response, "400 Bad Request");
 					}
@@ -340,13 +328,13 @@ int main( int argc, char ** argv )
 					{
 						//concat requested file onto served directory
 						strcpy(dir, directory);
-						if(strcmp(parseBuffer[1], "/") == 0)
+						if(strcmp(arrRequest[1], "/") == 0)
 						{
 							strcat(dir, "/index.html");
 						}
 						else
 						{
-							strcat(dir, parseBuffer[1]);
+							strcat(dir, arrRequest[1]);
 						}
 						
 						if(!fileExists(dir))
@@ -377,17 +365,15 @@ int main( int argc, char ** argv )
 
 					if(boolFileExists)
 					{
-						fseek(fp, 0L, SEEK_END); //read to end
+						//determine file length
+						fseek(fp, 0L, SEEK_END);
 						file_size = ftell(fp);
-						fseek(fp, 0L, SEEK_SET); //set pointer back to start
+						fseek(fp, 0L, SEEK_SET);
 
+						//read file
 						char filebuffer[file_size];
-
 						bytes_read = fread(filebuffer, sizeof(char), file_size, fp);
-
 						fclose(fp);
-
-						char sendbuffer[BUFFER_SIZE];
 
 						if(bytes_read <= BUFFER_SIZE)
 						{
@@ -413,7 +399,6 @@ int main( int argc, char ** argv )
 
 		}//end switch
 	}//end while
-
 
 	close(sock);
 	return EXIT_SUCCESS;
