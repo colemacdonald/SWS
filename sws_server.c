@@ -182,11 +182,12 @@ int prepareSocket()
 		return FALSE;
 	}
 
+	printf("sock = %d\n", sock);
+
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
 	//struct sockaddr_in sa; 
-	char buffer[1024];
 	ssize_t recsize;
 	socklen_t fromlen;
 
