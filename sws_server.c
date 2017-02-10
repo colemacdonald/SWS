@@ -102,7 +102,12 @@ int fileExists(char * filepath, char * directory)
 	realpath(filepath, tmpFile);
 	realpath(directory, tmpDir);
 
-	printf("file: %s - dir: %s\n", tmpFile, tmpDir);
+	if(strncmp(tmpFile, tmpDir, strlen(tmpDir)) != 0)
+	{
+		return FALSE;
+	}
+
+	//printf("file: %s - dir: %s\n", tmpFile, tmpDir);
 
 	struct stat buf;
 	int status = stat(filepath, &buf);
