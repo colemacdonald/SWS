@@ -388,6 +388,7 @@ int main( int argc, char ** argv )
 								sendto(sock, &filebuffer[index], BUFFER_SIZE, 0, (struct sockaddr*)&sa, sizeof sa);
 								index += BUFFER_SIZE;
 							}
+							//send remainder of file
 							sendto(sock, &filebuffer[index], strlen(&filebuffer[index]), 0, (struct sockaddr*)&sa, sizeof sa);
 						}
 					}
