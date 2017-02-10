@@ -278,7 +278,7 @@ int main( int argc, char ** argv )
 				//timeout -> should never happen as timeout is null
 				printf("Error in select (0). Continuing.\n");
 				break;
-			case 1:
+			default:
 				//select returned properly
 				if(FD_ISSET(STDIN_FILENO, &read_fds))
 				{
@@ -401,10 +401,10 @@ int main( int argc, char ** argv )
 					}
 				}
 				break;
-			default:
+			/*default:
 				//printf("Default select hit.");
 				break;
-				//wtf
+				//wtf*/
 
 		}//end switch
 	}//end while
