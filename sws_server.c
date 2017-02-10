@@ -236,7 +236,10 @@ int main( int argc, char ** argv )
 		return EXIT_FAILURE;
 	}
 
-	if(!prepareSocket())
+	int i = prepareSocket();
+	printf("i = %d\n", i);
+
+	if(!i)
 	{
 		return EXIT_FAILURE;
 	}
