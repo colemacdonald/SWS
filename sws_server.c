@@ -259,10 +259,6 @@ int main( int argc, char ** argv )
 	int select_result;
 	fd_set read_fds;
 
-	FD_ZERO( &read_fds );
-	FD_SET( STDIN_FILENO, &read_fds );
-	FD_SET( sock, &read_fds );
-
 	printf("sws is running on UDP port %s and serving %s\n", port, directory);
 	printf("press 'q' to quit ...\n");
 
@@ -277,9 +273,6 @@ int main( int argc, char ** argv )
 		FD_SET( sock, &read_fds );
 
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
-
-		printf("result: %d\n", select_result);
-		fflush(STDIN_FILENO);
 
 		switch( select_result )
 		{
