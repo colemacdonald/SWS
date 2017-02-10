@@ -203,7 +203,6 @@ int prepareSocket()
 		close(sock);
 		return FALSE;
 	}
-
 	return TRUE;
 }
 
@@ -238,9 +237,40 @@ int main( int argc, char ** argv )
 		return EXIT_FAILURE;
 	}
 
-	if(!prepareSocket())
+	/*if(!prepareSocket())
 	{
 		return EXIT_FAILURE;
+	}*/
+
+			//copied from udp_server.c
+	sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if(sock == -1)
+	{
+		close(sock);
+		printf("socket could not be created - please try again\n");
+		return FALSE;
+	}
+
+	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
+
+	//struct sockaddr_in sa; 
+	char buffer[1024];
+	ssize_t recsize;
+	socklen_t fromlen;
+
+	memset(&sa, 0, sizeof sa);
+	sa.sin_family = AF_INET;
+	sa.sin_addr.s_addr = htonl(INADDR_ANY);
+	sa.sin_port = htons( atoi( port ) ); //convert to int
+	fromlen = sizeof(sa);
+	//end of copy
+
+	if(bind(sock, (struct sockaddr *) &sa, sizeof sa) != 0)
+	{
+		printf("socket could not be bound\n");
+		close(sock);
+		return FALSE;
 	}
 
 	//prep fdset
@@ -261,9 +291,6 @@ int main( int argc, char ** argv )
 		FD_SET( sock, &read_fds );
 
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
-
-		printf("res: %d", select_result);
-
 
 		switch( select_result )
 		{
