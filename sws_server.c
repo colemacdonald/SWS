@@ -265,6 +265,9 @@ int main( int argc, char ** argv )
 
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
 
+		printf("result: %d\n", select_result);
+		fflush(STDIN_FILENO);
+
 		switch( select_result )
 		{
 			case -1:
