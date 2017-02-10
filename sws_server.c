@@ -182,6 +182,8 @@ int prepareSocket()
 		return FALSE;
 	}
 
+	printf("sock: %d\n", sock);
+
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
@@ -289,9 +291,10 @@ int main( int argc, char ** argv )
 					{
 						printf("Unrecognized command.\n");
 					}
-					//fflush(STDIN_FILENO);
+					fflush(STDIN_FILENO);
 				} else if(FD_ISSET(sock, &read_fds))
 				{
+					fflush(STDIN_FILENO);
 					ssize_t recsize;
 					socklen_t fromlen = sizeof(sa);
 					char request[BUFFER_SIZE];
