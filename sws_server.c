@@ -182,8 +182,6 @@ int prepareSocket()
 		return FALSE;
 	}
 
-	printf("sock: %d\n", sock);
-
 	//http://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
 	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
 
@@ -263,6 +261,9 @@ int main( int argc, char ** argv )
 		FD_SET( sock, &read_fds );
 
 		select_result = select( sock + 1, &read_fds, NULL, NULL, NULL );
+
+		printf("res: %d", select_result);
+
 
 		switch( select_result )
 		{
