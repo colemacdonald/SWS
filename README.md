@@ -13,3 +13,13 @@ When select returns due to a message being recieved through the socket, an array
 
 The header is sent first for simplicities sake (always have to send it) followed by the file - if required.
 
+The included file 'test.sh' is a bash script that can be executed to run 5 test cases:
+	1. GET / HTTP/1.0\r\n\r\n
+	2. GET /nofile HTTP/1.0\r\n\r\n
+	3. GET / HTTP/1.1\r\n\r\n
+	4. GET /../sws_server.c HTTP/1.0\r\n\r\n
+	5. GET /AUTHORS.txt HTTP/1.0\r\n\r\n
+
+***** THE SERVER MUST BE LISTENING ON PORT 3080, AND BE HOSTING THE INCLUDED DIRECTORY 'public' IN ORDER FOR TESTS TO WORK.
+
+ ~ Cole Macdonald
