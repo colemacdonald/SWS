@@ -30,7 +30,7 @@ Basis of file is from udp_server.c as shown in lab 2
 #define BUFFER_SIZE 1024
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-//										GLOBAL VARIABLES
+//									GLOBAL VARIABLES
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 int sock;
@@ -39,7 +39,7 @@ char * directory;
 struct sockaddr_in sa;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-//										HELPER FUNCTIONS
+//									HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void getTimeString(char * buffer)
@@ -94,8 +94,16 @@ int checkURI(char * filepath)
 	return TRUE;
 }
 
-int fileExists(char * filepath)
+int fileExists(char * filepath, char * directory)
 {
+	char tmpFile[BUFFER_SIZE];
+	char tmpDir[BUFFER_SIZE];
+
+	realpath(filepath, tmpFile);
+	realpath(directory, tmpDir);
+
+	printf("file: %s - dir: %s\n", tmpFile, tmpDir);
+
 	struct stat buf;
 	int status = stat(filepath, &buf);
 
@@ -344,7 +352,7 @@ int main( int argc, char ** argv )
 							strcat(dir, arrRequest[1]);
 						}
 						
-						if(!fileExists(dir))
+						if(!fileExists(dir, directory))
 						{
 							strcat(response, "404 Not Found");
 						}
@@ -401,11 +409,6 @@ int main( int argc, char ** argv )
 					}
 				}
 				break;
-			/*default:
-				//printf("Default select hit.");
-				break;
-				//wtf*/
-
 		}//end switch
 	}//end while
 
